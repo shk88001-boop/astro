@@ -1,4 +1,5 @@
 export async function handler(event) {
+  console.log("event", event);
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -7,6 +8,7 @@ export async function handler(event) {
   }
 
   const body = JSON.parse(event.body);
+  console.log("body", body);
 
   try {
     const response = await fetch(
@@ -21,6 +23,7 @@ export async function handler(event) {
     );
 
     const text = await response.text();
+    console.log("text", text);
 
     return {
       statusCode: response.status,
