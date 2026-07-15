@@ -1,0 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PricingCard from '../components/PricingCard.astro';
+import Faq from '../components/Faq.astro';
+
+const services = [
+  {
+    title: 'Invoicing',
+    summary: 'Create, send, and track branded invoices from templates built for repeat clients.',
+    points: ['Reusable client & line-item templates', 'Automatic invoice numbering', 'PDF and hosted-link delivery'],
+  },
+  {
+    title: 'Checkout & payments',
+    summary: 'Give every client a secure, hosted checkout page instead of an emailed payment link.',
+    points: ['Card, ACH and wire support', 'PCI-DSS compliant hosting', 'Custom checkout branding'],
+  },
+  {
+    title: 'Reminders & follow-up',
+    summary: 'Let Pathlight chase late invoices the same polite way, every single time.',
+    points: ['Configurable reminder schedule', 'Automatic late fees', 'Read-receipt style view tracking'],
+  },
+];
+
+const process = [
+  { step: '01', title: 'Connect your bank', text: 'Link the account you already use in under two minutes. No paperwork, no waiting period.' },
+  { step: '02', title: 'Build your first invoice', text: 'Start from a blank invoice or one of our templates, and save it for the next time you bill the same client.' },
+  { step: '03', title: 'Send the checkout link', text: 'Your client gets a hosted payment page, not a PDF. Pathlight tracks the moment they open it.' },
+  { step: '04', title: 'Get paid and reconciled', text: 'Funds settle to your bank account, and the invoice is marked paid automatically, no manual matching.' },
+];
+
+const plans = [
+  { name: 'Starter', price: '$0', description: 'For freelancers sending a handful of invoices a month.', features: ['Up to 5 invoices / month', 'Card payments', 'Standard checkout page'] },
+  { name: 'Professional', price: '$29', description: 'For consultants and small teams billing regularly.', features: ['Unlimited invoices', 'Card, ACH & wire', 'Custom checkout branding', 'Automated reminders'], featured: true },
+  { name: 'Agency', price: 'Custom', description: 'For agencies managing multiple clients and seats.', features: ['Everything in Professional', 'Multiple team seats', 'Dedicated account manager'] },
+];
+
+const faqs = [
+  { q: 'Do you support recurring invoices?', a: 'Yes. Any invoice can be set to repeat weekly, monthly, or on a custom schedule, and Pathlight will generate and send each one automatically.' },
+  { q: 'Can I white-label the checkout page?', a: 'On Professional and Agency plans you can add your logo, brand colors, and a custom subdomain to the checkout page your clients see.' },
+  { q: 'What happens if a payment fails?', a: 'Pathlight notifies both you and your client immediately, and the client can retry with a different payment method from the same checkout link.' },
+];
+---
+
+<Layout
+  title="Services"
+  description="Pathlight handles invoicing, checkout and payments, and automated follow-up so independent consultants and agencies get paid on time."
+>
+  <section class="section services-hero">
+    <div class="container">
+      <span class="eyebrow">Services</span>
+      <h1>Three tools. One billing workflow.</h1>
+      <p class="lead">Everything from the first invoice to the reconciled payment, built to run itself once it's set up.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container service-grid">
+      {services.map((s) => (
+        <div class="service-card card">
+          <h3>{s.title}</h3>
+          <p>{s.summary}</p>
+          <ul>
+            {s.points.map((p) => <li>{p}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section process" id="process">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">How it works</span>
+        <h2>A four-step process, in that order</h2>
+        <p>Each step depends on the one before it, so this is the exact order clients move through Pathlight.</p>
+      </div>
+      <div class="process-grid">
+        {process.map((p) => (
+          <div class="process-step">
+            <div class="step-number">{p.step}</div>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section pricing-overview">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Pricing</span>
+        <h2>Choose the plan that matches how often you bill</h2>
+      </div>
+      <div class="pricing-grid">
+        {plans.map((p) => <PricingCard {...p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <div class="container narrow">
+      <div class="section-head center">
+        <span class="eyebrow">Questions</span>
+        <h2>Services FAQ</h2>
+      </div>
+      <Faq items={faqs} />
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Ready to set up your first workflow?</h2>
+      <p>It takes about five minutes to connect your bank and send your first invoice.</p>
+      <a href="/checkout" class="btn btn-primary">Start free</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .services-hero { padding-top: 72px; padding-bottom: 24px; }
+  .lead { font-size: 1.1rem; max-width: 620px; }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .service-card { padding: 32px 28px; }
+  .service-card h3 { margin-bottom: 10px; }
+  .service-card ul { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .service-card li {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    padding-left: 20px;
+    position: relative;
+  }
+  .service-card li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .process { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .step-number {
+    font-family: var(--font-mono);
+    color: var(--primary);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  .process-step h3 { margin-bottom: 8px; font-size: 1.1rem; }
+  .process-step p { font-size: 0.9rem; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .container.narrow { max-width: 760px; }
+
+  .final-cta {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff;
+    text-align: center;
+    padding: 96px 0;
+  }
+  .final-cta h2 { color: #fff; margin-bottom: 12px; }
+  .final-cta p { color: rgba(255,255,255,0.82); margin-bottom: 30px; }
+
+  @media (max-width: 900px) {
+    .service-grid, .process-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .service-grid, .process-grid, .pricing-grid { grid-template-columns: 1fr; }
+  }
+</style>

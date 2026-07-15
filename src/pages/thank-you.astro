@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Thank you"
+  description="Your payment was received. Thank you for using Pathlight."
+>
+  <section class="section thanks-section">
+    <div class="container narrow">
+      <div class="thanks-card card">
+        <div class="success-icon" aria-hidden="true">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="27" fill="var(--primary-tint)" stroke="var(--primary)" stroke-width="1.4"/>
+            <path d="M18 29l7 7 14-16" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="eyebrow">Payment received</span>
+        <h1>Thank you.</h1>
+        <p class="message">Your order has been received and your payment is confirmed.</p>
+        <p class="details" id="order-details"></p>
+        <a href="/" class="btn btn-primary">Back to home</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get('email');
+  const amount = params.get('amount');
+  const details = document.getElementById('order-details');
+
+  if (details && email && amount) {
+    details.textContent = `A receipt for $${amount} was sent to ${email}.`;
+  } else if (details) {
+    details.remove();
+  }
+</script>
+
+<style>
+  .thanks-section { padding-top: 96px; padding-bottom: 96px; }
+  .container.narrow { max-width: 480px; }
+
+  .thanks-card {
+    padding: 48px 36px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .success-icon { margin-bottom: 10px; }
+
+  h1 { margin-bottom: 6px; }
+
+  .message { color: var(--ink-soft); margin-bottom: 4px; }
+  .details {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: var(--ink-faint);
+    margin-bottom: 26px;
+    word-break: break-word;
+  }
+
+  .btn { margin-top: 8px; }
+</style>

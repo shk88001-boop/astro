@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const team = [
+  { name: 'Elena Cho', role: 'Co-founder & CEO', photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=faces' },
+  { name: 'David Okafor', role: 'Co-founder & CTO', photo: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=300&h=300&fit=crop&crop=faces' },
+  { name: 'Sofia Marín', role: 'Head of Product', photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=faces' },
+  { name: 'Tom Whitfield', role: 'Head of Trust & Safety', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=faces' },
+];
+
+const timeline = [
+  { year: '2021', text: 'Elena and David start Pathlight after spending a combined nine years invoicing clients from a spreadsheet.' },
+  { year: '2022', text: 'Pathlight opens to its first 100 consultants and processes its first million dollars in payments.' },
+  { year: '2023', text: 'Automated reminders and late fees ship, cutting average time-to-payment by four days.' },
+  { year: '2024', text: 'Agency plan launches, bringing multi-seat billing to teams of up to twelve people.' },
+  { year: '2026', text: 'Pathlight passes $41M processed and 4,200 active businesses across 30 countries.' },
+];
+---
+
+<Layout
+  title="About Pathlight"
+  description="Pathlight was built by two freelancers who were tired of chasing invoices. Meet the team and see how the company has grown since 2021."
+>
+  <section class="section about-hero">
+    <div class="container">
+      <span class="eyebrow">About Pathlight</span>
+      <h1>We built the invoicing tool we couldn't find</h1>
+      <p class="lead">Pathlight started as a shared spreadsheet between two freelancers. It's now the way thousands of independent businesses get paid.</p>
+    </div>
+  </section>
+
+  <section class="section story">
+    <div class="container story-grid">
+      <div>
+        <h2>Our story</h2>
+        <p>In 2021, Elena Cho was running a design practice and David Okafor was consulting on infrastructure projects. Both were losing hours every month to the same task: formatting invoices, chasing late payments, and reconciling what had actually landed in the bank.</p>
+        <p>They started building Pathlight as a shared tool between their two businesses. Within a year, three other freelancers in their coworking space asked to use it too. Pathlight became a company not because of a pitch deck, but because the spreadsheet kept getting requests for access.</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop" alt="Team working together around a laptop and notebook" loading="lazy" class="story-image" />
+    </div>
+  </section>
+
+  <section class="section mv">
+    <div class="container mv-grid">
+      <div class="mv-card card">
+        <span class="eyebrow">Mission</span>
+        <h3>Make getting paid the easiest part of running an independent business.</h3>
+      </div>
+      <div class="mv-card card">
+        <span class="eyebrow">Vision</span>
+        <h3>A world where no consultant or small agency loses a week each month to invoice admin.</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="section stats-section">
+    <div class="container stats-grid">
+      <div><div class="stat-number">4,200+</div><p>Active businesses</p></div>
+      <div><div class="stat-number">$41M+</div><p>Processed since launch</p></div>
+      <div><div class="stat-number">30</div><p>Countries represented</p></div>
+      <div><div class="stat-number">4.3 days</div><p>Average time saved per invoice</p></div>
+    </div>
+  </section>
+
+  <section class="section timeline-section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Timeline</span>
+        <h2>How we got here</h2>
+      </div>
+      <ol class="timeline">
+        {timeline.map((item) => (
+          <li>
+            <div class="timeline-year">{item.year}</div>
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section team-section" id="team">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Team</span>
+        <h2>The people behind Pathlight</h2>
+      </div>
+      <div class="team-grid">
+        {team.map((p) => (
+          <div class="team-card">
+            <img src={p.photo} alt={`Portrait of ${p.name}`} width="200" height="200" loading="lazy" />
+            <div class="team-name">{p.name}</div>
+            <div class="team-role">{p.role}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Join the businesses billing smarter</h2>
+      <p>Set up your first invoice in under five minutes.</p>
+      <a href="/checkout" class="btn btn-primary">Start free</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-hero { padding-top: 72px; padding-bottom: 24px; }
+  .lead { font-size: 1.1rem; max-width: 620px; }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .story-image { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+
+  .mv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .mv-card { padding: 36px 32px; }
+  .mv-card h3 { font-weight: 500; }
+
+  .stats-section { background: var(--ink); }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .stats-grid .stat-number { color: #fff; }
+  .stats-grid p { color: #9AA3B4; margin-top: 6px; font-size: 0.88rem; }
+
+  .timeline {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 680px;
+    position: relative;
+    border-left: 2px solid var(--border);
+  }
+  .timeline li {
+    position: relative;
+    padding: 0 0 36px 32px;
+  }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -7px; top: 2px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--bg);
+  }
+  .timeline-year {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .timeline p { margin: 0; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .team-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: 14px;
+  }
+  .team-name { font-weight: 600; }
+  .team-role { font-size: 0.86rem; color: var(--ink-faint); }
+
+  .final-cta {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff;
+    text-align: center;
+    padding: 96px 0;
+  }
+  .final-cta h2 { color: #fff; margin-bottom: 12px; }
+  .final-cta p { color: rgba(255,255,255,0.82); margin-bottom: 30px; }
+
+  @media (max-width: 900px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-image { order: -1; }
+    .stats-grid, .team-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .mv-grid { grid-template-columns: 1fr; }
+  }
+</style>
