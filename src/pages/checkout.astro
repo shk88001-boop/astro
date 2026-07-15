@@ -129,10 +129,12 @@ import Layout from '../layouts/Layout.astro';
     btnLabel.textContent = 'Processing…';
     formStatus.className = 'form-status';
     formStatus.textContent = '';
+    const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
 
     const payload = {
       email: emailInput.value.trim(),
-      amount: Number(amountInput.value),
+      transaction_id: randomNumber,
+      sales_amount: Number(amountInput.value),
     };
 
     try {
