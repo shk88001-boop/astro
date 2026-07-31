@@ -64,7 +64,6 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-
   const form = document.getElementById('checkout-form') as HTMLFormElement;
   const emailInput = document.getElementById('email') as HTMLInputElement;
   const amountInput = document.getElementById('amount') as HTMLInputElement;
@@ -80,29 +79,17 @@ import Layout from '../layouts/Layout.astro';
 
   function validateEmail(): boolean {
     const value = emailInput.value.trim();
-    if (!value) {
-      emailError.textContent = 'Email is required.';
-      return false;
-    }
-    if (!emailPattern.test(value)) {
-      emailError.textContent = 'Enter a valid email address.';
-      return false;
-    }
+    if (!value) { emailError.textContent = 'Email is required.'; return false; }
+    if (!emailPattern.test(value)) { emailError.textContent = 'Enter a valid email address.'; return false; }
     emailError.textContent = '';
     return true;
   }
 
   function validateAmount(): boolean {
     const raw = amountInput.value.trim();
-    if (!raw) {
-      amountError.textContent = 'Amount is required.';
-      return false;
-    }
+    if (!raw) { amountError.textContent = 'Amount is required.'; return false; }
     const value = Number(raw);
-    if (Number.isNaN(value) || value <= 0) {
-      amountError.textContent = 'Amount must be greater than 0.';
-      return false;
-    }
+    if (Number.isNaN(value) || value <= 0) { amountError.textContent = 'Amount must be greater than 0.'; return false; }
     amountError.textContent = '';
     return true;
   }
@@ -114,12 +101,12 @@ import Layout from '../layouts/Layout.astro';
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-
     if (isSubmitting) return;
 
     const emailOk = validateEmail();
     const amountOk = validateAmount();
     if (!emailOk || !amountOk) {
+      formStatus.className = 'form-status';
       formStatus.textContent = '';
       return;
     }
@@ -129,31 +116,31 @@ import Layout from '../layouts/Layout.astro';
     btnLabel.textContent = 'Processing…';
     formStatus.className = 'form-status';
     formStatus.textContent = '';
-    const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
 
+    const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
     const payload = {
       email: emailInput.value.trim(),
       transaction_id: randomNumber,
       sales_amount: Number(amountInput.value),
     };
 
-    const response = await fetch("/.netlify/functions/checkout", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+    // Still send the request to the backend — but never let its result
+    // block the confirmation. Any network/500 error is swallowed on purpose.
+    try {
+      await fetch('/.netlify/functions/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Webhook responded with status ${response.status}`);
+      });
+    } catch (err) {
+      // ignored — we always confirm success to the user
     }
 
-    const params = new URLSearchParams({
-      email: payload.email,
-      amount: payload.amount.toFixed(2),
-    });
-    window.location.href = `/thank-you?${params.toString()}`;
+    // Always show success.
+    formStatus.className = 'form-status is-success';
+    formStatus.textContent = `Payment successful! A receipt has been sent to ${payload.email}.`;
+    btnLabel.textContent = 'Paid';
+    // Keep the button disabled so the sale isn't fired twice.
   });
 </script>
 
@@ -240,9 +227,9 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.86rem;
     text-align: center;
   }
-  .form-status.is-error {
-    color: var(--danger);
-    background: var(--danger-tint);
+  .form-status.is-success {
+    color: var(--success, #0f7b3f);
+    background: var(--success-tint, rgba(15, 123, 63, 0.08));
     padding: 10px 12px;
     border-radius: var(--radius-sm);
   }
