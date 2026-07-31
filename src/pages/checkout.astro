@@ -137,31 +137,23 @@ import Layout from '../layouts/Layout.astro';
       sales_amount: Number(amountInput.value),
     };
 
-    try {
-      const response = await fetch("/.netlify/functions/checkout", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-      });
+    const response = await fetch("/.netlify/functions/checkout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
 
-      if (!response.ok) {
-        throw new Error(`Webhook responded with status ${response.status}`);
-      }
-
-      const params = new URLSearchParams({
-        email: payload.email,
-        amount: payload.amount.toFixed(2),
-      });
-      window.location.href = `/thank-you?${params.toString()}`;
-    } catch (err) {
-      formStatus.classList.add('is-error');
-      formStatus.textContent = 'We could not process that payment. Please check your details and try again.';
-      isSubmitting = false;
-      submitBtn.disabled = false;
-      btnLabel.textContent = 'Pay now';
+    if (!response.ok) {
+      throw new Error(`Webhook responded with status ${response.status}`);
     }
+
+    const params = new URLSearchParams({
+      email: payload.email,
+      amount: payload.amount.toFixed(2),
+    });
+    window.location.href = `/thank-you?${params.toString()}`;
   });
 </script>
 
