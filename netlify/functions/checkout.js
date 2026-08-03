@@ -9,6 +9,7 @@ export async function handler(event) {
 
   const body = JSON.parse(event.body);
   console.log("body", body);
+  console.log("WEBHOOK_URL", process.env.WEBHOOK_URL);
 
   try {
     const response = await fetch(
